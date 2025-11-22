@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": "palm",
   "name": "Shipsec Studio Docs",
   "colors": {
     "primary": "#1472D0",
