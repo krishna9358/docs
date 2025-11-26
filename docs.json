@@ -17,11 +17,11 @@
             "group": "Getting started",
             "pages": [
               "index",
-              "Installation",
-              "useradmin",
+              "installation",
+              "userAdmin",
               "quickstart",
-              "coreactions",
-              "scriptactions",
+              "coreActions",
+              "scriptActions",
               "controlflow",
               "expressions",
               "secrets"
