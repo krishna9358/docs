@@ -1,216 +1,4650 @@
 {
-  "openapi": "3.1.0",
-  "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
+  "openapi": "3.0.0",
   "paths": {
-    "/plants": {
+    "/api/v1/health": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        "operationId": "AppController_health",
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/api/v1/workflows": {
+      "post": {
+        "operationId": "WorkflowsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWorkflowRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      },
+      "get": {
+        "operationId": "WorkflowsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Plant"
+                    "$ref": "#/components/schemas/WorkflowResponseDto"
                   }
                 }
               }
             }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
           }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
         },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
+        "tags": [
+          "workflows"
+        ]
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/api/v1/workflows/{id}": {
+      "put": {
+        "operationId": "WorkflowsController_update",
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
             "required": true,
+            "in": "path",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWorkflowRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      },
+      "get": {
+        "operationId": "WorkflowsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      },
+      "delete": {
+        "operationId": "WorkflowsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/{id}/metadata": {
+      "patch": {
+        "operationId": "WorkflowsController_updateMetadata",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWorkflowMetadataDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs": {
+      "get": {
+        "operationId": "WorkflowsController_listRuns",
+        "parameters": [
+          {
+            "name": "workflowId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all workflow runs with metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "runs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "workflowId": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "RUNNING",
+                              "COMPLETED",
+                              "FAILED",
+                              "CANCELLED",
+                              "TERMINATED",
+                              "CONTINUED_AS_NEW",
+                              "TIMED_OUT",
+                              "UNKNOWN"
+                            ]
+                          },
+                          "startTime": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "endTime": {
+                            "type": "string",
+                            "format": "date-time",
+                            "nullable": true
+                          },
+                          "temporalRunId": {
+                            "type": "string"
+                          },
+                          "workflowVersionId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "workflowVersion": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "workflowName": {
+                            "type": "string"
+                          },
+                          "eventCount": {
+                            "type": "number"
+                          },
+                          "nodeCount": {
+                            "type": "number"
+                          },
+                          "duration": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}": {
+      "get": {
+        "operationId": "WorkflowsController_getRun",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Metadata for a single workflow run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "workflowId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "RUNNING",
+                        "COMPLETED",
+                        "FAILED",
+                        "CANCELLED",
+                        "TERMINATED",
+                        "CONTINUED_AS_NEW",
+                        "TIMED_OUT",
+                        "UNKNOWN"
+                      ]
+                    },
+                    "startTime": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "endTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "temporalRunId": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "workflowVersionId": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "workflowVersion": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "workflowName": {
+                      "type": "string"
+                    },
+                    "eventCount": {
+                      "type": "number"
+                    },
+                    "nodeCount": {
+                      "type": "number"
+                    },
+                    "duration": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/{workflowId}/versions/{versionId}": {
+      "get": {
+        "operationId": "WorkflowsController_findVersion",
+        "parameters": [
+          {
+            "name": "workflowId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "versionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowVersionResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/{id}/commit": {
+      "post": {
+        "operationId": "WorkflowsController_commit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compiled workflow definition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "entrypoint": {
+                      "type": "object",
+                      "properties": {
+                        "ref": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "actions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ref": {
+                            "type": "string"
+                          },
+                          "componentId": {
+                            "type": "string"
+                          },
+                          "params": {
+                            "type": "object",
+                            "additionalProperties": true
+                          },
+                          "dependsOn": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "environment": {
+                          "type": "string"
+                        },
+                        "timeoutSeconds": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/{id}/run": {
+      "post": {
+        "operationId": "WorkflowsController_run",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunWorkflowRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workflow execution result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "runId": {
+                      "type": "string",
+                      "description": "Temporal workflow identifier"
+                    },
+                    "workflowId": {
+                      "type": "string",
+                      "description": "Workflow record id"
+                    },
+                    "temporalRunId": {
+                      "type": "string",
+                      "description": "Temporal first execution run id"
+                    },
+                    "taskQueue": {
+                      "type": "string",
+                      "description": "Temporal task queue used for execution"
+                    },
+                    "workflowVersionId": {
+                      "type": "string",
+                      "description": "Workflow version identifier used for execution"
+                    },
+                    "workflowVersion": {
+                      "type": "integer",
+                      "description": "Workflow version number used for execution"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "RUNNING",
+                        "COMPLETED",
+                        "FAILED",
+                        "CANCELLED",
+                        "TERMINATED",
+                        "CONTINUED_AS_NEW",
+                        "TIMED_OUT",
+                        "UNKNOWN"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/status": {
+      "get": {
+        "operationId": "WorkflowsController_status",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "temporalRunId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Temporal execution status"
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/result": {
+      "get": {
+        "operationId": "WorkflowsController_result",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "temporalRunId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolved workflow result payload"
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/config": {
+      "get": {
+        "operationId": "WorkflowsController_config",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inputs and version metadata captured for a workflow run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "runId": {
+                      "type": "string"
+                    },
+                    "workflowId": {
+                      "type": "string"
+                    },
+                    "workflowVersionId": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "workflowVersion": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "inputs": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/cancel": {
+      "post": {
+        "operationId": "WorkflowsController_cancel",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "temporalRunId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cancels a running workflow execution"
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/trace": {
+      "get": {
+        "operationId": "WorkflowsController_trace",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trace events for a workflow run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "runId": {
+                      "type": "string"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "runId": {
+                            "type": "string"
+                          },
+                          "nodeId": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "STARTED",
+                              "PROGRESS",
+                              "COMPLETED",
+                              "FAILED"
+                            ]
+                          },
+                          "level": {
+                            "type": "string",
+                            "enum": [
+                              "info",
+                              "warn",
+                              "error",
+                              "debug"
+                            ]
+                          },
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "message": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "error": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              },
+                              "stack": {
+                                "type": "string"
+                              },
+                              "code": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false,
+                            "nullable": true
+                          },
+                          "outputSummary": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "nullable": true
+                          },
+                          "data": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "nullable": true
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "properties": {
+                              "activityId": {
+                                "type": "string"
+                              },
+                              "attempt": {
+                                "type": "integer",
+                                "minimum": 0
+                              },
+                              "correlationId": {
+                                "type": "string"
+                              },
+                              "streamId": {
+                                "type": "string"
+                              },
+                              "joinStrategy": {
+                                "type": "string",
+                                "enum": [
+                                  "all",
+                                  "any",
+                                  "first"
+                                ]
+                              },
+                              "triggeredBy": {
+                                "type": "string"
+                              },
+                              "failure": {
+                                "type": "object",
+                                "properties": {
+                                  "at": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "reason": {
+                                    "type": "object",
+                                    "properties": {
+                                      "message": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "additionalProperties": false,
+                                "nullable": true
+                              },
+                              "retryPolicy": {
+                                "type": "object",
+                                "properties": {
+                                  "maxAttempts": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "initialIntervalSeconds": {
+                                    "type": "number",
+                                    "minimum": 0
+                                  },
+                                  "maximumIntervalSeconds": {
+                                    "type": "number",
+                                    "minimum": 0
+                                  },
+                                  "backoffCoefficient": {
+                                    "type": "number",
+                                    "minimum": 0
+                                  },
+                                  "nonRetryableErrorTypes": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "additionalProperties": false,
+                                "nullable": true
+                              }
+                            },
+                            "additionalProperties": false,
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "cursor": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/events": {
+      "get": {
+        "operationId": "WorkflowsController_events",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full event timeline for a workflow run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "runId": {
+                      "type": "string"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "runId": {
+                            "type": "string"
+                          },
+                          "nodeId": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "STARTED",
+                              "PROGRESS",
+                              "COMPLETED",
+                              "FAILED"
+                            ]
+                          },
+                          "level": {
+                            "type": "string",
+                            "enum": [
+                              "info",
+                              "warn",
+                              "error",
+                              "debug"
+                            ]
+                          },
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "message": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "error": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              },
+                              "stack": {
+                                "type": "string"
+                              },
+                              "code": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false,
+                            "nullable": true
+                          },
+                          "outputSummary": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "nullable": true
+                          },
+                          "data": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "nullable": true
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "properties": {
+                              "activityId": {
+                                "type": "string"
+                              },
+                              "attempt": {
+                                "type": "integer",
+                                "minimum": 0
+                              },
+                              "correlationId": {
+                                "type": "string"
+                              },
+                              "streamId": {
+                                "type": "string"
+                              },
+                              "joinStrategy": {
+                                "type": "string",
+                                "enum": [
+                                  "all",
+                                  "any",
+                                  "first"
+                                ]
+                              },
+                              "triggeredBy": {
+                                "type": "string"
+                              },
+                              "failure": {
+                                "type": "object",
+                                "properties": {
+                                  "at": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "reason": {
+                                    "type": "object",
+                                    "properties": {
+                                      "message": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "additionalProperties": false,
+                                "nullable": true
+                              },
+                              "retryPolicy": {
+                                "type": "object",
+                                "properties": {
+                                  "maxAttempts": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "initialIntervalSeconds": {
+                                    "type": "number",
+                                    "minimum": 0
+                                  },
+                                  "maximumIntervalSeconds": {
+                                    "type": "number",
+                                    "minimum": 0
+                                  },
+                                  "backoffCoefficient": {
+                                    "type": "number",
+                                    "minimum": 0
+                                  },
+                                  "nonRetryableErrorTypes": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "additionalProperties": false,
+                                "nullable": true
+                              }
+                            },
+                            "additionalProperties": false,
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "cursor": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/dataflows": {
+      "get": {
+        "operationId": "WorkflowsController_dataflows",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Derived data flow packets for a workflow run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "runId": {
+                      "type": "string"
+                    },
+                    "packets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "runId": {
+                            "type": "string"
+                          },
+                          "sourceNode": {
+                            "type": "string"
+                          },
+                          "targetNode": {
+                            "type": "string"
+                          },
+                          "inputKey": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "payload": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "nullable": true
+                          },
+                          "timestamp": {
+                            "type": "integer"
+                          },
+                          "visualTime": {
+                            "type": "number"
+                          },
+                          "size": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "file",
+                              "json",
+                              "text",
+                              "binary"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/artifacts": {
+      "get": {
+        "operationId": "WorkflowsController_runArtifacts",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Artifacts generated for a workflow run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunArtifactsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/artifacts/{artifactId}/download": {
+      "get": {
+        "operationId": "WorkflowsController_downloadRunArtifact",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download artifact for a specific run"
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/stream": {
+      "get": {
+        "operationId": "WorkflowsController_stream",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "temporalRunId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "terminalCursor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Server-sent events stream for workflow run updates"
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/logs": {
+      "get": {
+        "operationId": "WorkflowsController_logs",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nodeRef",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "stream",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 500,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Log streams for a workflow run"
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/terminal": {
+      "get": {
+        "operationId": "WorkflowsController_terminalChunks",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nodeRef",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "stream",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stdout",
+                "stderr",
+                "pty"
+              ]
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startTime",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "endTime",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Terminal chunks for a workflow run"
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/terminal/archive": {
+      "post": {
+        "operationId": "WorkflowsController_archiveTerminal",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TerminalArchiveRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TerminalRecordingDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      },
+      "get": {
+        "operationId": "WorkflowsController_listTerminalArchives",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TerminalRecordListDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/workflows/runs/{runId}/terminal/archive/{recordId}/download": {
+      "get": {
+        "operationId": "WorkflowsController_downloadTerminalArchive",
+        "parameters": [
+          {
+            "name": "runId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recordId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "maximum": 9007199254740991,
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download terminal recording"
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/api/v1/files/upload": {
+      "post": {
+        "operationId": "FilesController_uploadFile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "File to upload"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "fileName": {
+                      "type": "string"
+                    },
+                    "mimeType": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "number"
+                    },
+                    "storageKey": {
+                      "type": "string"
+                    },
+                    "uploadedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/v1/files": {
+      "get": {
+        "operationId": "FilesController_listFiles",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 500,
+              "default": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all uploaded files",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "fileName": {
+                        "type": "string"
+                      },
+                      "mimeType": {
+                        "type": "string"
+                      },
+                      "size": {
+                        "type": "number"
+                      },
+                      "uploadedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/v1/files/{id}": {
+      "get": {
+        "operationId": "FilesController_getFile",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get file metadata"
+          }
+        },
+        "tags": [
+          "files"
+        ]
+      },
+      "delete": {
+        "operationId": "FilesController_deleteFile",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete file"
+          }
+        },
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/v1/files/{id}/download": {
+      "get": {
+        "operationId": "FilesController_downloadFile",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download file",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/v1/artifacts": {
+      "get": {
+        "operationId": "ArtifactsController_listArtifacts",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "workflowId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "componentId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "destination",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "run",
+                "library"
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 200,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List workspace artifacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtifactListResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "artifacts"
+        ]
+      }
+    },
+    "/api/v1/artifacts/{id}/download": {
+      "get": {
+        "operationId": "ArtifactsController_downloadArtifact",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download artifact binary",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "artifacts"
+        ]
+      }
+    },
+    "/api/v1/components": {
+      "get": {
+        "operationId": "ComponentsController_listComponents",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List all registered components",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "core.file.loader"
+                      },
+                      "slug": {
+                        "type": "string",
+                        "example": "file-loader"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "File Loader"
+                      },
+                      "version": {
+                        "type": "string",
+                        "example": "1.0.0"
+                      },
+                      "type": {
+                        "type": "string",
+                        "example": "input"
+                      },
+                      "category": {
+                        "type": "string",
+                        "example": "input"
+                      },
+                      "categoryConfig": {
+                        "type": "object",
+                        "properties": {
+                          "label": {
+                            "type": "string",
+                            "example": "📥 Input"
+                          },
+                          "color": {
+                            "type": "string",
+                            "example": "text-blue-600"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Data sources, triggers, and credential access"
+                          },
+                          "emoji": {
+                            "type": "string",
+                            "example": "📥"
+                          }
+                        }
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Load files from filesystem"
+                      },
+                      "documentation": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "documentationUrl": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "icon": {
+                        "type": "string",
+                        "example": "FileUp"
+                      },
+                      "logo": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "isLatest": {
+                        "type": "boolean",
+                        "nullable": true
+                      },
+                      "deprecated": {
+                        "type": "boolean",
+                        "nullable": true
+                      },
+                      "example": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "author": {
+                        "type": "object",
+                        "nullable": true,
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "shipsecai",
+                              "community"
+                            ]
+                          },
+                          "url": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "runner": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "inline",
+                              "docker",
+                              "remote"
+                            ],
+                            "example": "inline"
+                          },
+                          "image": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "command": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "inputs": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "dataType": {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "primitive",
+                                    "list",
+                                    "map",
+                                    "contract"
+                                  ]
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "element": {
+                                  "type": "object"
+                                },
+                                "value": {
+                                  "type": "object"
+                                },
+                                "coercion": {
+                                  "type": "object",
+                                  "properties": {
+                                    "from": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string",
+                                        "enum": [
+                                          "any",
+                                          "text",
+                                          "secret",
+                                          "number",
+                                          "boolean",
+                                          "file",
+                                          "json"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "required": [
+                                "kind"
+                              ],
+                              "additionalProperties": true
+                            },
+                            "required": {
+                              "type": "boolean"
+                            },
+                            "description": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "valuePriority": {
+                              "type": "string",
+                              "enum": [
+                                "manual-first",
+                                "connection-first"
+                              ],
+                              "nullable": true
+                            }
+                          }
+                        }
+                      },
+                      "outputs": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "dataType": {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "primitive",
+                                    "list",
+                                    "map",
+                                    "contract"
+                                  ]
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "element": {
+                                  "type": "object"
+                                },
+                                "value": {
+                                  "type": "object"
+                                },
+                                "coercion": {
+                                  "type": "object",
+                                  "properties": {
+                                    "from": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string",
+                                        "enum": [
+                                          "any",
+                                          "text",
+                                          "secret",
+                                          "number",
+                                          "boolean",
+                                          "file",
+                                          "json"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "required": [
+                                "kind"
+                              ],
+                              "additionalProperties": true
+                            },
+                            "description": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      },
+                      "parameters": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "text",
+                                "textarea",
+                                "number",
+                                "boolean",
+                                "select",
+                                "multi-select",
+                                "json",
+                                "secret"
+                              ]
+                            },
+                            "required": {
+                              "type": "boolean"
+                            },
+                            "default": {
+                              "nullable": true
+                            },
+                            "placeholder": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "description": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "helpText": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "options": {
+                              "type": "array",
+                              "nullable": true,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "value": {}
+                                }
+                              }
+                            },
+                            "min": {
+                              "type": "number",
+                              "nullable": true
+                            },
+                            "max": {
+                              "type": "number",
+                              "nullable": true
+                            },
+                            "rows": {
+                              "type": "number",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      },
+                      "examples": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "components"
+        ]
+      }
+    },
+    "/api/v1/components/{id}": {
+      "get": {
+        "operationId": "ComponentsController_getComponent",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a specific component by ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "category": {
+                      "type": "string"
+                    },
+                    "categoryConfig": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "color": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "emoji": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "documentation": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "documentationUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "icon": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "logo": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "author": {
+                      "type": "object",
+                      "nullable": true,
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      }
+                    },
+                    "runner": {
+                      "type": "object"
+                    },
+                    "inputs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "dataType": {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "primitive",
+                                  "list",
+                                  "map",
+                                  "contract"
+                                ]
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "element": {
+                                "type": "object"
+                              },
+                              "value": {
+                                "type": "object"
+                              },
+                              "coercion": {
+                                "type": "object",
+                                "properties": {
+                                  "from": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "enum": [
+                                        "any",
+                                        "text",
+                                        "secret",
+                                        "number",
+                                        "boolean",
+                                        "file",
+                                        "json"
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "required": [
+                              "kind"
+                            ],
+                            "additionalProperties": true
+                          },
+                          "required": {
+                            "type": "boolean"
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "valuePriority": {
+                            "type": "string",
+                            "enum": [
+                              "manual-first",
+                              "connection-first"
+                            ],
+                            "nullable": true
+                          }
+                        }
+                      }
+                    },
+                    "outputs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "dataType": {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "primitive",
+                                  "list",
+                                  "map",
+                                  "contract"
+                                ]
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "element": {
+                                "type": "object"
+                              },
+                              "value": {
+                                "type": "object"
+                              },
+                              "coercion": {
+                                "type": "object",
+                                "properties": {
+                                  "from": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "enum": [
+                                        "any",
+                                        "text",
+                                        "secret",
+                                        "number",
+                                        "boolean",
+                                        "file",
+                                        "json"
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "required": [
+                              "kind"
+                            ],
+                            "additionalProperties": true
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        }
+                      }
+                    },
+                    "parameters": {
+                      "type": "array"
+                    },
+                    "examples": {
+                      "type": "array"
+                    },
+                    "isLatest": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "deprecated": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "example": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "components"
+        ]
+      }
+    },
+    "/api/v1/secrets": {
+      "get": {
+        "operationId": "SecretsController_listSecrets",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SecretSummaryResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "secrets"
+        ]
+      },
+      "post": {
+        "operationId": "SecretsController_createSecret",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSecretDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretSummaryResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "secrets"
+        ]
+      }
+    },
+    "/api/v1/secrets/{id}": {
+      "get": {
+        "operationId": "SecretsController_getSecret",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretSummaryResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "secrets"
+        ]
+      },
+      "patch": {
+        "operationId": "SecretsController_updateSecret",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSecretDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretSummaryResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "secrets"
+        ]
+      },
+      "delete": {
+        "operationId": "SecretsController_deleteSecret",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "Plant deleted",
-            "content": {}
+            "description": ""
+          }
+        },
+        "tags": [
+          "secrets"
+        ]
+      }
+    },
+    "/api/v1/secrets/{id}/value": {
+      "get": {
+        "operationId": "SecretsController_getSecretValue",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
           },
-          "400": {
-            "description": "unexpected error",
+          {
+            "name": "version",
+            "required": false,
+            "in": "query",
+            "description": "Optional secret version to retrieve (defaults to active version)",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/SecretValueResponse"
                 }
               }
             }
           }
-        }
+        },
+        "tags": [
+          "secrets"
+        ]
       }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
+    },
+    "/api/v1/secrets/{id}/rotate": {
+      "put": {
+        "operationId": "SecretsController_rotateSecret",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
-          "description": "Plant added to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/RotateSecretDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretSummaryResponse"
+                }
               }
             }
           }
+        },
+        "tags": [
+          "secrets"
         ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
       }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+    "/api/v1/integrations/providers": {
+      "get": {
+        "operationId": "IntegrationsController_listProviders",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IntegrationProviderResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      }
+    },
+    "/api/v1/integrations/providers/{provider}/config": {
+      "get": {
+        "operationId": "IntegrationsController_getProviderConfiguration",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderConfigurationResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      },
+      "put": {
+        "operationId": "IntegrationsController_upsertProviderConfiguration",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertProviderConfigDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderConfigurationResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      },
+      "delete": {
+        "operationId": "IntegrationsController_deleteProviderConfiguration",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      }
+    },
+    "/api/v1/integrations/connections": {
+      "get": {
+        "operationId": "IntegrationsController_listConnections",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IntegrationConnectionResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      }
+    },
+    "/api/v1/integrations/{provider}/start": {
+      "post": {
+        "operationId": "IntegrationsController_startOAuth",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartOAuthDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthStartResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      }
+    },
+    "/api/v1/integrations/{provider}/exchange": {
+      "post": {
+        "operationId": "IntegrationsController_completeOAuth",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteOAuthDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationConnectionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      }
+    },
+    "/api/v1/integrations/connections/{id}/refresh": {
+      "post": {
+        "operationId": "IntegrationsController_refreshConnection",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshConnectionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationConnectionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      }
+    },
+    "/api/v1/integrations/connections/{id}": {
+      "delete": {
+        "operationId": "IntegrationsController_disconnectConnection",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisconnectConnectionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Connection removed"
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      }
+    },
+    "/api/v1/integrations/connections/{id}/token": {
+      "post": {
+        "operationId": "IntegrationsController_issueConnectionToken",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-internal-token",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionTokenResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "integrations"
+        ]
+      }
+    },
+    "/api/v1/testing/webhooks": {
+      "post": {
+        "operationId": "TestingWebhookController_acceptWebhook",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 100,
+              "maximum": 599,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "delayMs",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 60000,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TestingWebhook"
+        ]
+      },
+      "get": {
+        "operationId": "TestingWebhookController_listRecords",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TestingWebhook"
+        ]
+      },
+      "delete": {
+        "operationId": "TestingWebhookController_clearRecords",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TestingWebhook"
+        ]
+      }
+    },
+    "/api/v1/testing/webhooks/latest": {
+      "get": {
+        "operationId": "TestingWebhookController_latestRecord",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TestingWebhook"
+        ]
+      }
+    },
+    "/api/v1/testing/webhooks/{id}": {
+      "get": {
+        "operationId": "TestingWebhookController_getRecord",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TestingWebhook"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "ShipSec Studio API",
+    "description": "ShipSec backend API specification",
+    "version": "0.1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "API v1"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "CreateWorkflowRequestDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "nodes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ]
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "config": {
+                      "default": {},
+                      "type": "object",
+                      "propertyNames": {
+                        "type": "string"
+                      },
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "position",
+                "data"
+              ]
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string"
+                },
+                "sourceHandle": {
+                  "type": "string"
+                },
+                "targetHandle": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "source",
+                "target"
+              ]
+            }
+          },
+          "viewport": {
+            "default": {
+              "x": 0,
+              "y": 0,
+              "zoom": 1
+            },
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "zoom": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "zoom"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "nodes",
+          "edges"
+        ]
+      },
+      "WorkflowResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "graph": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "nodes": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "position": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "number"
+                        },
+                        "y": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "x",
+                        "y"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "config": {
+                          "default": {},
+                          "type": "object",
+                          "propertyNames": {
+                            "type": "string"
+                          },
+                          "additionalProperties": {}
+                        }
+                      },
+                      "required": [
+                        "label"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "position",
+                    "data"
+                  ]
+                }
+              },
+              "edges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "target": {
+                      "type": "string"
+                    },
+                    "sourceHandle": {
+                      "type": "string"
+                    },
+                    "targetHandle": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "source",
+                    "target"
+                  ]
+                }
+              },
+              "viewport": {
+                "default": {
+                  "x": 0,
+                  "y": 0,
+                  "zoom": 1
+                },
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "zoom": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "zoom"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "nodes",
+              "edges"
+            ]
+          },
+          "compiledDefinition": {
+            "nullable": true
+          },
+          "lastRun": {
+            "type": "string",
+            "nullable": true
+          },
+          "runCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "currentVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "currentVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "graph",
+          "compiledDefinition",
+          "lastRun",
+          "runCount",
+          "createdAt",
+          "updatedAt",
+          "currentVersionId",
+          "currentVersion"
+        ]
+      },
+      "UpdateWorkflowRequestDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "nodes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ]
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "config": {
+                      "default": {},
+                      "type": "object",
+                      "propertyNames": {
+                        "type": "string"
+                      },
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "label"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "position",
+                "data"
+              ]
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string"
+                },
+                "sourceHandle": {
+                  "type": "string"
+                },
+                "targetHandle": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "source",
+                "target"
+              ]
+            }
+          },
+          "viewport": {
+            "default": {
+              "x": 0,
+              "y": 0,
+              "zoom": 1
+            },
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "zoom": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "zoom"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "nodes",
+          "edges"
+        ]
+      },
+      "UpdateWorkflowMetadataDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "WorkflowVersionResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "workflowId": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "graph": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "nodes": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "position": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "number"
+                        },
+                        "y": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "x",
+                        "y"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "config": {
+                          "default": {},
+                          "type": "object",
+                          "propertyNames": {
+                            "type": "string"
+                          },
+                          "additionalProperties": {}
+                        }
+                      },
+                      "required": [
+                        "label"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "position",
+                    "data"
+                  ]
+                }
+              },
+              "edges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "target": {
+                      "type": "string"
+                    },
+                    "sourceHandle": {
+                      "type": "string"
+                    },
+                    "targetHandle": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "source",
+                    "target"
+                  ]
+                }
+              },
+              "viewport": {
+                "default": {
+                  "x": 0,
+                  "y": 0,
+                  "zoom": 1
+                },
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "zoom": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "zoom"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "nodes",
+              "edges"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "workflowId",
+          "version",
+          "graph",
+          "createdAt"
+        ]
+      },
+      "RunWorkflowRequestDto": {
+        "type": "object",
+        "properties": {
+          "inputs": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "versionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "RunArtifactsResponseDto": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string"
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "runId": {
+                  "type": "string"
+                },
+                "workflowId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "workflowVersionId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "nullable": true
+                },
+                "componentId": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "componentRef": {
+                  "type": "string"
+                },
+                "fileId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "mimeType": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "destinations": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "run",
+                      "library"
+                    ]
+                  }
+                },
+                "metadata": {
+                  "type": "object",
+                  "properties": {
+                    "remoteUploads": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "s3",
+                              "gcs"
+                            ]
+                          },
+                          "bucket": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "uri": {
+                            "type": "string"
+                          },
+                          "region": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "etag": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "propertyNames": {
+                              "type": "string"
+                            },
+                            "additionalProperties": {}
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "bucket",
+                          "key",
+                          "uri"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": {},
+                  "nullable": true
+                },
+                "organizationId": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                }
+              },
+              "required": [
+                "id",
+                "runId",
+                "workflowId",
+                "componentRef",
+                "fileId",
+                "name",
+                "mimeType",
+                "size",
+                "destinations",
+                "createdAt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "runId",
+          "artifacts"
+        ]
+      },
+      "TerminalArchiveRequestDto": {
+        "type": "object",
+        "properties": {
+          "nodeRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stream": {
+            "default": "pty",
+            "type": "string",
+            "enum": [
+              "stdout",
+              "stderr",
+              "pty"
+            ]
+          },
+          "width": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 400
+          },
+          "height": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          }
+        },
+        "required": [
+          "nodeRef"
+        ]
+      },
+      "TerminalRecordingDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "runId": {
+            "type": "string"
+          },
+          "nodeRef": {
+            "type": "string"
+          },
+          "stream": {
+            "type": "string"
+          },
+          "fileId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "chunkCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "durationMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "runId",
+          "nodeRef",
+          "stream",
+          "fileId",
+          "chunkCount",
+          "durationMs",
+          "createdAt"
+        ]
+      },
+      "TerminalRecordListDto": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string"
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "runId": {
+                  "type": "string"
+                },
+                "nodeRef": {
+                  "type": "string"
+                },
+                "stream": {
+                  "type": "string"
+                },
+                "fileId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "chunkCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "durationMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "runId",
+                "nodeRef",
+                "stream",
+                "fileId",
+                "chunkCount",
+                "durationMs",
+                "createdAt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "runId",
+          "records"
+        ]
+      },
+      "ArtifactListResponseDto": {
+        "type": "object",
+        "properties": {
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "runId": {
+                  "type": "string"
+                },
+                "workflowId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "workflowVersionId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "nullable": true
+                },
+                "componentId": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "componentRef": {
+                  "type": "string"
+                },
+                "fileId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "mimeType": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "destinations": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "run",
+                      "library"
+                    ]
+                  }
+                },
+                "metadata": {
+                  "type": "object",
+                  "properties": {
+                    "remoteUploads": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "s3",
+                              "gcs"
+                            ]
+                          },
+                          "bucket": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "uri": {
+                            "type": "string"
+                          },
+                          "region": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "etag": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "propertyNames": {
+                              "type": "string"
+                            },
+                            "additionalProperties": {}
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "bucket",
+                          "key",
+                          "uri"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": {},
+                  "nullable": true
+                },
+                "organizationId": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                }
+              },
+              "required": [
+                "id",
+                "runId",
+                "workflowId",
+                "componentRef",
+                "fileId",
+                "name",
+                "mimeType",
+                "size",
+                "destinations",
+                "createdAt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "artifacts"
+        ]
+      },
+      "SecretVersionResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "number"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "createdAt"
+        ]
+      },
+      "SecretSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "activeVersion": {
+            "description": "Metadata about the active version (value is never returned)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SecretVersionResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "SecretValueResponse": {
+        "type": "object",
+        "properties": {
+          "secretId": {
+            "type": "string"
+          },
+          "version": {
+            "type": "number"
+          },
+          "value": {
+            "type": "string",
+            "description": "Decrypted secret value"
+          }
+        },
+        "required": [
+          "secretId",
+          "version",
+          "value"
+        ]
+      },
+      "CreateSecretDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable unique secret name"
+          },
+          "value": {
+            "type": "string",
+            "description": "Secret plaintext value"
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional description for operators"
+          },
+          "tags": {
+            "description": "Optional tags to help organize secrets",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      },
+      "RotateSecretDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "New plaintext secret value"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "UpdateSecretDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Updated secret name (must remain unique)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Updated description for the secret"
+          },
+          "tags": {
+            "description": "Updated tags for the secret",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "IntegrationProviderResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "docsUrl": {
+            "type": "string"
+          },
+          "defaultScopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "supportsRefresh": {
+            "type": "boolean"
+          },
+          "isConfigured": {
+            "type": "boolean",
+            "description": "Indicates whether the provider has been configured with client credentials"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "defaultScopes",
+          "supportsRefresh",
+          "isConfigured"
+        ]
+      },
+      "ProviderConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Stored OAuth client identifier"
+          },
+          "hasClientSecret": {
+            "type": "boolean",
+            "description": "True when a client secret has been stored for this provider"
+          },
+          "configuredBy": {
+            "type": "string",
+            "enum": [
+              "environment",
+              "user"
+            ],
+            "description": "Origin of the credential configuration"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Last update timestamp in ISO 8601 format"
+          }
+        },
+        "required": [
+          "provider",
+          "hasClientSecret",
+          "configuredBy"
+        ]
+      },
+      "UpsertProviderConfigDto": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "description": "OAuth client identifier used for this provider"
+          },
+          "clientSecret": {
+            "type": "string",
+            "description": "OAuth client secret. Required when configuring the provider for the first time."
+          }
+        },
+        "required": [
+          "clientId"
+        ]
+      },
+      "IntegrationConnectionResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "providerName": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tokenType": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "expired"
+            ]
+          },
+          "supportsRefresh": {
+            "type": "boolean"
+          },
+          "hasRefreshToken": {
+            "type": "boolean"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Provider-specific metadata saved alongside the connection"
+          }
+        },
+        "required": [
+          "id",
+          "provider",
+          "providerName",
+          "userId",
+          "scopes",
+          "tokenType",
+          "createdAt",
+          "updatedAt",
+          "status",
+          "supportsRefresh",
+          "hasRefreshToken"
+        ]
+      },
+      "StartOAuthDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Application user identifier to associate the connection with"
+          },
+          "redirectUri": {
+            "type": "string",
+            "description": "Frontend callback URL that receives the OAuth code"
+          },
+          "scopes": {
+            "description": "Optional override of scopes to request",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "userId",
+          "redirectUri"
+        ]
+      },
+      "OAuthStartResponseDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "authorizationUrl": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "expiresIn": {
+            "type": "number",
+            "description": "Suggested client-side TTL for the authorization URL",
+            "example": 300
+          }
+        },
+        "required": [
+          "provider",
+          "authorizationUrl",
+          "state",
+          "expiresIn"
+        ]
+      },
+      "CompleteOAuthDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Application user identifier to associate the connection with"
+          },
+          "redirectUri": {
+            "type": "string",
+            "description": "Frontend callback URL that receives the OAuth code"
+          },
+          "scopes": {
+            "description": "Optional override of scopes to request",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "state": {
+            "type": "string",
+            "description": "Opaque OAuth state returned from the authorize redirect"
+          },
+          "code": {
+            "type": "string",
+            "description": "Authorization code issued by the provider"
+          }
+        },
+        "required": [
+          "userId",
+          "redirectUri",
+          "state",
+          "code"
+        ]
+      },
+      "RefreshConnectionDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Application user identifier that owns the connection"
+          }
+        },
+        "required": [
+          "userId"
+        ]
+      },
+      "DisconnectConnectionDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Application user identifier that owns the connection"
+          }
+        },
+        "required": [
+          "userId"
+        ]
+      },
+      "ConnectionTokenResponseDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expiresAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "provider",
+          "userId",
+          "accessToken",
+          "tokenType",
+          "scopes"
+        ]
       }
     }
   }
