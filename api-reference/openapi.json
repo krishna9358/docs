@@ -1,5 +1,18 @@
 {
   "openapi": "3.0.0",
+  "info": {
+    "title": "ShipSec Studio API",
+    "description": "ShipSec backend API specification",
+    "version": "0.1.0",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "API v1"
+    }
+  ],
+  "tags": [],
   "paths": {
     "/api/v1/health": {
       "get": {
@@ -3133,19 +3146,6 @@
       }
     }
   },
-  "info": {
-    "title": "ShipSec Studio API",
-    "description": "ShipSec backend API specification",
-    "version": "0.1.0",
-    "contact": {}
-  },
-  "tags": [],
-  "servers": [
-    {
-      "url": "/api/v1",
-      "description": "API v1"
-    }
-  ],
   "components": {
     "schemas": {
       "CreateWorkflowRequestDto": {
