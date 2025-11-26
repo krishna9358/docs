@@ -22,7 +22,7 @@
               "quickstart",
               "coreActions",
               "scriptActions",
-              "controlflow",
+              "controlFlow",
               "expressions",
               "secrets"
 
