@@ -19,19 +19,24 @@
               "index",
               "Installation",
               "useradmin",
-              "quickstart"
+              "quickstart",
+              "coreactions",
+              "scriptactions",
+              "controlflow",
+              "expressions",
+              "secrets"
 
             ]
           },
           {
-            "group": "Customization",
+            "group": "Tutorials",
             "pages": [
               "essentials/settings",
               "essentials/navigation"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Self Host",
             "pages": [
               "essentials/markdown",
               "essentials/code",
