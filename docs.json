@@ -107,7 +107,7 @@
     }
   },
   "logo": {
-    "light": "/logo/shipsec-dark.svg",
+    "light": "/logo/shipsec-dark.png",
     "dark": "/logo/shipsec-dark.png"
   },
   "navbar": {
