@@ -25,7 +25,6 @@
               "controlFlow",
               "expressions",
               "secrets"
-
             ]
           },
           {
@@ -61,16 +60,11 @@
           {
             "group": "Endpoint examples",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook",
               "api-reference/endpoint/health"
             ]
           }
         ]
       }
-      
     ],
     "global": {
       "anchors": [
@@ -106,15 +100,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
