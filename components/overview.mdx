@@ -1,0 +1,48 @@
+---
+title: "Components Overview"
+description: "Drag-and-drop building blocks for security automation workflows"
+---
+
+Components are the building blocks of ShipSec Studio workflows. Each component performs a specific task and can be connected together to create powerful automation pipelines.
+
+## Component Categories
+
+<CardGroup cols={2}>
+  <Card title="Core" icon="cube" href="/components/core">
+    Triggers, file handling, data transformation, and outputs
+  </Card>
+  <Card title="Security" icon="shield" href="/components/security">
+    Subdomain discovery, port scanning, DNS resolution, secret detection
+  </Card>
+  <Card title="AI" icon="brain" href="/components/ai">
+    OpenAI, Gemini, and OpenRouter chat completions
+  </Card>
+  <Card title="IT Automation" icon="gear" href="/components/it-automation">
+    Okta, Google Workspace, and GitHub user management
+  </Card>
+</CardGroup>
+
+## How Components Work
+
+Each component has:
+
+- **Inputs** – Data ports that accept connections from other components
+- **Outputs** – Data ports that can be connected to downstream components  
+- **Parameters** – Configurable settings in the sidebar
+
+Components run inside Docker containers for isolation and reliability. Workflows are orchestrated by [Temporal](https://temporal.io/) with automatic retries and resumability.
+
+## Example Pipeline
+
+A typical security reconnaissance workflow:
+
+```
+Manual Trigger → Subfinder → DNSX → httpx → Webhook
+```
+
+1. **Manual Trigger** – User provides target domains
+2. **Subfinder** – Discovers subdomains
+3. **DNSX** – Resolves DNS records
+4. **httpx** – Probes for live HTTP services
+5. **Webhook** – Sends results to Slack/Teams
+

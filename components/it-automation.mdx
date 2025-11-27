@@ -1,0 +1,108 @@
+---
+title: "IT Automation"
+description: "User lifecycle management for Okta, Google Workspace, and GitHub"
+---
+
+IT automation components handle user offboarding, license management, and access revocation.
+
+---
+
+## Okta User Offboard
+
+Offboards users from Okta by deactivating or deleting their accounts.
+
+| Input | Type | Description |
+|-------|------|-------------|
+| `user_email` | String | Email of user to offboard |
+| `okta_domain` | String | Your Okta organization domain |
+| `apiToken` | Secret | Okta API token via Secret Loader |
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `action` | Select | `deactivate` or `delete` |
+| `dry_run` | Boolean | Preview without making changes |
+
+| Output | Type | Description |
+|--------|------|-------------|
+| `success` | Boolean | Operation result |
+| `audit` | Object | Detailed audit log |
+| `userDeactivated` | Boolean | Deactivation status |
+| `userDeleted` | Boolean | Deletion status |
+
+**Example use cases:**
+- Automate employee offboarding
+- Revoke Okta access when users leave
+- Generate audit trails for compliance
+
+---
+
+## Google Workspace License Unassign
+
+Removes Google Workspace licenses from users to free up seats.
+
+| Input | Type | Description |
+|-------|------|-------------|
+| `user_email` | String | User to unassign licenses from |
+| `credentials` | Secret | Google service account credentials |
+
+**Use case:** Automatically reclaim licenses during offboarding workflows.
+
+---
+
+## GitHub Remove Org Membership
+
+Removes users from GitHub organizations and teams to recover seats.
+
+| Input | Type | Description |
+|-------|------|-------------|
+| `organization` | String | GitHub org login (e.g., shipsecai) |
+| `userIdentifier` | String | GitHub username or email |
+| `connectionId` | String | GitHub OAuth connection ID |
+| `teamSlug` | String | Optional team to remove from first |
+
+| Output | Type | Description |
+|--------|------|-------------|
+| `resolvedLogin` | String | GitHub username |
+| `removedFromTeam` | Boolean | Team removal result |
+| `removedFromOrganization` | Boolean | Org removal result |
+
+**Example use cases:**
+- Offboard employees from GitHub organization
+- Clean up inactive contractor access
+- Automate seat recovery for cost optimization
+
+---
+
+## GitHub Connection Provider
+
+Provides GitHub OAuth tokens for other GitHub components.
+
+---
+
+## Complete Offboarding Workflow
+
+Combine IT automation components for full user offboarding:
+
+```
+Manual Trigger (email input)
+    ↓
+┌───┴───┐
+│       │
+Okta    GitHub
+Offboard Remove
+│       │
+└───┬───┘
+    ↓
+Google License
+Unassign
+    ↓
+Webhook (notify HR)
+```
+
+This workflow:
+1. Accepts user email as input
+2. Deactivates Okta account
+3. Removes GitHub organization access
+4. Reclaims Google Workspace license
+5. Notifies HR via webhook
+

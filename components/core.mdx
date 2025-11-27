@@ -1,0 +1,140 @@
+---
+title: "Core Components"
+description: "Essential building blocks for workflow inputs, outputs, and data transformation"
+---
+
+Core components handle workflow triggers, file operations, data transformation, and output destinations.
+
+---
+
+## Triggers
+
+### Manual Trigger
+
+Starts a workflow manually. Configure runtime inputs to collect data (files, text, etc.) when triggered.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `runtimeInputs` | JSON | Define inputs to collect at runtime |
+
+**Supported input types:** `file`, `text`, `number`, `json`, `array`
+
+**Example use cases:**
+- Collect uploaded scope files before running security scans
+- Prompt operators for target domains or API keys
+
+---
+
+### Webhook
+
+Sends JSON payloads to external HTTP endpoints with retries and timeouts.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `url` | URL | Destination endpoint |
+| `method` | Select | POST, PUT, or PATCH |
+| `payload` | JSON | Request body |
+| `headers` | JSON | HTTP headers |
+| `timeoutMs` | Number | Request timeout (default: 30000) |
+| `retries` | Number | Retry attempts (default: 3) |
+
+**Example use cases:**
+- Send scan results to Slack or Teams
+- POST assets to a custom API
+
+---
+
+## File Operations
+
+### File Loader
+
+Loads file content from storage for use in workflows.
+
+| Input | Type | Description |
+|-------|------|-------------|
+| `fileId` | UUID | File ID from uploaded file |
+
+| Output | Type | Description |
+|--------|------|-------------|
+| `file` | Object | File metadata + base64 content |
+| `textContent` | String | Decoded UTF-8 text |
+
+---
+
+### Text Splitter
+
+Splits text into an array of strings by separator.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `text` | String/File | Text content to split |
+| `separator` | String | Split character (default: `\n`) |
+
+| Output | Type | Description |
+|--------|------|-------------|
+| `items` | Array | Split strings |
+| `count` | Number | Number of items |
+
+**Example:** Split newline-delimited subdomains before passing to scanners.
+
+---
+
+### Text Joiner
+
+Joins array elements into a single string.
+
+---
+
+## Secrets
+
+### Secret Loader
+
+Fetches secrets from the ShipSec-managed secret store.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `secretId` | Secret | Secret name or UUID |
+| `version` | Number | Optional version pin |
+| `outputFormat` | Select | `raw` or `json` |
+
+| Output | Type | Description |
+|--------|------|-------------|
+| `secret` | Any | Resolved secret value (masked in logs) |
+| `metadata` | Object | Secret version info |
+
+---
+
+## Data Transformation
+
+### Array Pick
+
+Extracts specific items from an array by index.
+
+### Array Pack
+
+Combines multiple values into a single array.
+
+### Console Log
+
+Outputs data to workflow logs for debugging.
+
+---
+
+## Storage Destinations
+
+### Artifact Writer
+
+Writes workflow artifacts to ShipSec storage.
+
+### File Writer
+
+Writes content to a file in workflow storage.
+
+### Destination S3
+
+Uploads files to an S3-compatible bucket.
+
+### AWS Credentials
+
+Provides AWS credentials for S3 operations.
+

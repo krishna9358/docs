@@ -1,101 +1,29 @@
 ---
 title: "Introduction"
-description: "A quick overview of ShipsecAi Studio."
+description: "Open source security automation platform"
 ---
 
-**ShipsecAI Studio** is a modern, open source automation platform built for security and IT engineers. Shipsec  comes with a no-code / low-code UI for workflows, out-of-the-box integrations, lookup tables, and case management. Workflows are orchestrated using [**Temporal**](https://temporal.io/) for scale and reliability.
+**ShipSec Studio** is an open source automation platform built for security and IT engineers. It provides a no-code/low-code UI for building workflows, out-of-the-box integrations, and reliable orchestration powered by [Temporal](https://temporal.io/).
+
+## Why ShipSec Studio?
+
+- **Component-driven orchestration** – Drag-and-drop discovery, DNS, HTTP, and enrichment components
+- **Temporal reliability** – Every workflow runs with retries, heartbeats, and resumability baked in
+- **Live execution visibility** – Real-time traces, logs, and progress streaming
+- **Single-machine friendly** – Full stack runnable on a laptop with Docker Compose
 
 ## Get Started
 
-<Tip>
-  We highly recommend every user complete the [**quickstart tutorial**](https://docs.shipsec.ai/quickstart/tutorial). This tutorial covers all the core features of ShipsecAI Studio, which will save you hours of learning time.
-</Tip>
-
-<Columns cols={3}>
-  <Card title="Install" icon="download" iconType="regular" color="#1472D0" href="/installation">
-    Self-host ShipsecAI Studio on your own infrastructure.
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get up and running in 5 minutes
   </Card>
-  <Card title="User" icon="user-check" iconType="regular" color="#1472D0" href="/userAdmin">
-    Log into ShipsecAI Studio and invite your team.
+  <Card title="Installation" icon="download" href="/installation">
+    Self-host on your own infrastructure
   </Card>
-  <Card title="Quickstart" icon="rocket-launch" iconType="regular" color="#1472D0" href="/quickstart">
-    Get from zero to hero in one tutorial.
+</CardGroup>
 
-    <br />
-  </Card>
-</Columns>
+## Need Help?
 
-<Columns cols={3}>
-  <Card title="Core Action" icon="cube" iconType="regular" color="#1472D0" href="/coreActions">
-    Self-host ShipsecAI Studio on your own infrastructure.
-  </Card>
-  <Card title="Script Actions" icon="code" iconType="regular" color="#1472D0" href="/scriptActions">
-    Log into ShipsecAI Studio and invite your team.
-  </Card>
-  <Card title="Control Flow" icon="chart-network" iconType="regular" color="#1472D0" href="/controlFlow">
-    Get from zero to hero in one tutorial.
-
-    <br />
-  </Card>
-</Columns>
-
-<Columns cols={3}>
-  <Card title="Expressions" icon="dollar-sign" iconType="regular" color="#1472D0" href="expressions">
-    Self-host ShipsecAI Studio on your own infrastructure.
-  </Card>
-  <Card title="Secrets" icon="key" iconType="regular" color="#1472D0" href="/secrets">
-    Log into ShipsecAI Studio and invite your team.
-  </Card>
-</Columns>
-
-## Tutorials
-
-<Info>
-  You can sync custom YAML integrations and Python scripts directly into ShipsecAI Studio from a private Git repo. Learn more in the [**custom integrations**](https://docs.shipsecai.com/tutorials/custom-integrations) tutorial. This is the recommended way to use ShipsecAI. All reusable integrations should be stored and version controlled in your own GitHub / GitLab repository.
-</Info>
-
-<Columns cols={3}>
-  <Card title="Trigger workflows" icon="bolt-lightning" iconType="regular" color="#1472D0" href="/tutorials/workflow-trigger">
-    Trigger a workflow via the UI, webhook, or schedule.
-
-    <br />
-  </Card>
-  <Card title="Child workflows" icon="chart-network" iconType="regular" color="#1472D0" href="/tutorials/child-workflow">
-    Build and execute workflows of workflows.
-
-    <br />
-
-    <br />
-  </Card>
-  <Card title="Data transforms" icon="brackets-curly" iconType="regular" color="#1472D0" href="/tutorials/data-transforms">
-    Manipulate, filter and deduplicate data with transform actions.
-
-    <br />
-  </Card>
-</Columns>
-
-<Columns cols={3}>
-  <Card title="Scatter gather" icon="boxes-stacked" iconType="regular" color="#1472D0" href="/tutorials/scatter-gather">
-    Split, transform, and merge data with scatter and gather actions.
-
-    <br />
-  </Card>
-  <Card title="Wait, require and retry until" icon="circle-pause" iconType="regular" color="#1472D0" href="/tutorials/wait-require-retry">
-    Define wait until, require, and retry until logic in workflows.
-  </Card>
-  <Card title="Custom integrations" icon="integral" iconType="regular" color="#1472D0" href="/tutorials/custom-integration">
-    Build and sync custom integrations via git.
-
-    <br />
-
-    <br />
-  </Card>
-</Columns>
-
-<Columns cols={3}>
-  <Card title="Alert on failure" icon="triangle-exclamation" iconType="regular" color="#1472D0" href="/tutorials/alert-on-failure">
-    Notify your team when a workflow fails.
-
-    <br />
-  </Card>
-</Columns>
+- **Support** – [support@shipsec.ai](mailto:support@shipsec.ai)
+- **GitHub** – [github.com/shipsecai/studio](https://github.com/shipsecai/studio)

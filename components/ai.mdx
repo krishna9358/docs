@@ -1,0 +1,89 @@
+---
+title: "AI Components"
+description: "LLM integrations for intelligent workflow automation"
+---
+
+AI components enable chat completions with OpenAI, Google Gemini, and OpenRouter models.
+
+---
+
+## OpenAI Chat
+
+Executes chat completion against OpenAI-compatible endpoints.
+
+| Input | Type | Description |
+|-------|------|-------------|
+| `systemPrompt` | String | Optional system message |
+| `userPrompt` | String | Primary user prompt |
+| `apiKey` | Secret | OpenAI API key via Secret Loader |
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `model` | Select | gpt-4o, gpt-4.1-mini, gpt-5-mini, etc. |
+| `temperature` | Number | Sampling temperature (0-2) |
+| `maxTokens` | Number | Max tokens to generate |
+| `apiBaseUrl` | String | Override API base URL |
+
+| Output | Type | Description |
+|--------|------|-------------|
+| `responseText` | String | Assistant response |
+| `usage` | Object | Token usage metadata |
+| `chatModel` | Object | Model config for downstream nodes |
+
+---
+
+## Gemini Chat
+
+Chat completion using Google's Gemini models.
+
+| Input | Type | Description |
+|-------|------|-------------|
+| `systemPrompt` | String | Optional system instructions |
+| `userPrompt` | String | User input |
+| `apiKey` | Secret | Gemini API key |
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `model` | Select | gemini-2.5-flash, gemini-1.5-pro, etc. |
+| `temperature` | Number | Sampling temperature |
+| `maxTokens` | Number | Max tokens (up to 8192) |
+
+| Output | Type | Description |
+|--------|------|-------------|
+| `responseText` | String | Model response |
+| `usage` | Object | Token usage |
+
+---
+
+## OpenRouter Chat
+
+Access multiple LLM providers through OpenRouter's unified API.
+
+---
+
+## AI Agent
+
+Autonomous agent with tool-calling capabilities for complex reasoning tasks.
+
+---
+
+## Use Cases
+
+**Security Analysis**
+```
+TruffleHog → OpenAI Chat → Webhook
+```
+Use AI to analyze and prioritize detected secrets before alerting.
+
+**Report Generation**
+```
+httpx → Gemini Chat → Artifact Writer
+```
+Generate human-readable security reports from scan results.
+
+**Intelligent Triage**
+```
+Subfinder → AI Agent → Slack Webhook
+```
+Let an AI agent decide which subdomains require immediate attention.
+

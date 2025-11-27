@@ -1,4 +1,62 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Get ShipSec Studio running in 5 minutes"
 ---
+
+## Prerequisites
+
+- Docker Desktop (≥8 GB RAM)
+- [Bun](https://bun.sh) runtime
+- [PM2](https://pm2.io) (`npm install -g pm2`)
+- [just](https://github.com/casey/just) command runner
+
+## Setup
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/shipsecai/studio.git
+cd studio
+./install.sh
+```
+
+### 2. Configure environment
+
+```bash
+cp backend/.env.example backend/.env
+cp worker/.env.example worker/.env
+cp frontend/.env.example frontend/.env
+```
+
+### 3. Start infrastructure
+
+```bash
+just infra-up
+just status
+```
+
+### 4. Run migrations
+
+```bash
+bun run migrate
+```
+
+### 5. Start the stack
+
+```bash
+pm2 start pm2.config.cjs
+pm2 status
+```
+
+## Access Points
+
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:3211 |
+| Temporal UI | http://localhost:8081 |
+| MinIO Console | http://localhost:9001 |
+
+## Next Steps
+
+Ready to dive deeper? Check out the full [Installation Guide](/installation) for detailed configuration options and troubleshooting.
